@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+
 
 class AuthController extends Controller
 {
@@ -44,7 +47,7 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'nama' => 'required|string|max:255',
             'alamat' => 'required|string|max:255',
             'no_ktp' => 'required|string|max:255',
             'no_hp' => 'required|string|max:255',
@@ -59,7 +62,7 @@ class AuthController extends Controller
         }
 
         User::create([
-            'name' => $validated['name'],
+            'nama' => $validated['nama'],
             'alamat' => $validated['alamat'],
             'no_ktp' => $validated['no_ktp'],
             'no_hp' => $validated['no_hp'],

@@ -17,5 +17,24 @@ export default {
             },
         },
     },
-    plugins: [],
+    plugins: [daisyui],
+    daisyui: {
+        themes: [
+            {
+                light: {
+                    "primary": "#1e2d6b",
+                    "secondary": "#2d4499",
+                    "accent": "#1a2d7a",
+                    "neutral": "#3D4451",
+                    "base-100": "#FFFFFF",
+                    "info": "#3ABFF8",
+                    "success": "#36D399",
+                    "warning": "#FBBD23",
+                    "error": "#F87272",
+                },
+
+            },
+        ],
+    },
 };
+

@@ -1,6 +1,3 @@
-Sidebbar.txt
-Halaman
-/1
 
 <aside class="w-full bg-transparent text-slate-300 flex flex-col min-h-screen">
 
