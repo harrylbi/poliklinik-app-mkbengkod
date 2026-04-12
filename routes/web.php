@@ -5,7 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DokterController;
 use App\Http\Controllers\PasienController;
-
+use App\Http\Controllers\PoliController;
 
 
 Route::get('/', function () {
@@ -30,3 +30,10 @@ Route::middleware(['auth', 'role:pasien'])->group(function () {
     Route::get('/pasien/dashboard', [PasienController::class, 'dashboard'])->name('pasien.dashboard');
 });
 
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
+
+    Route::resource('polis', PoliController::class);
+});
