@@ -4,7 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DokterController;
+use App\Http\Controllers\Admin\DokterController as AdminDokterController;
 use App\Http\Controllers\PasienController;
+use App\Http\Controllers\Admin\PasienController as AdminPasienController;
+use App\Http\Controllers\Admin\ObatController as AdminObatController;
 use App\Http\Controllers\PoliController;
 
 
@@ -36,4 +39,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     })->name('admin.dashboard');
 
     Route::resource('polis', PoliController::class);
+    Route::resource('dokter', AdminDokterController::class);
+    Route::resource('pasien', AdminPasienController::class);
+    Route::resource('obat', AdminObatController::class);
 });
