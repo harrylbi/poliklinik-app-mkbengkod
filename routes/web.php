@@ -34,8 +34,15 @@ Route::middleware(['auth', 'role:dokter'])->group(function () {
     Route::get('/dokter/periksa/{id_daftar_poli}/create', [App\Http\Controllers\DokterPeriksaController::class, 'create'])->name('dokter.periksa.create');
     Route::post('/dokter/periksa/{id_daftar_poli}', [App\Http\Controllers\DokterPeriksaController::class, 'store'])->name('dokter.periksa.store');
 
-    // Excel Export Jadwal
+    // Manajemen Jadwal (explicit routes to avoid conflict with export)
+    Route::get('/dokter/jadwal', [\App\Http\Controllers\Dokter\JadwalPeriksaController::class, 'index'])->name('dokter.jadwal.index');
     Route::get('/dokter/jadwal/export', [DokterController::class, 'exportJadwal'])->name('dokter.jadwal.export');
+    Route::get('/dokter/jadwal/create', [\App\Http\Controllers\Dokter\JadwalPeriksaController::class, 'create'])->name('dokter.jadwal.create');
+    Route::post('/dokter/jadwal', [\App\Http\Controllers\Dokter\JadwalPeriksaController::class, 'store'])->name('dokter.jadwal.store');
+    Route::get('/dokter/jadwal/{jadwal}/edit', [\App\Http\Controllers\Dokter\JadwalPeriksaController::class, 'edit'])->name('dokter.jadwal.edit');
+    Route::put('/dokter/jadwal/{jadwal}', [\App\Http\Controllers\Dokter\JadwalPeriksaController::class, 'update'])->name('dokter.jadwal.update');
+    Route::delete('/dokter/jadwal/{jadwal}', [\App\Http\Controllers\Dokter\JadwalPeriksaController::class, 'destroy'])->name('dokter.jadwal.destroy');
+    Route::post('/dokter/jadwal/{jadwal}/toggle', [\App\Http\Controllers\Dokter\JadwalPeriksaController::class, 'toggleAktif'])->name('dokter.jadwal.toggle');
 
     // Riwayat Pasien
     Route::get('/dokter/riwayat', [DokterController::class, 'riwayatPasien'])->name('dokter.riwayat.index');

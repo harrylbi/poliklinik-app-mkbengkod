@@ -1,6 +1,3 @@
-header.txt
-Halaman
-/1
 
 <header class="bg-base-100 border-b border-base-300 h-16 flex items-center px-6 gap-4 sticky top-0 z-30 shadow-sm">
 

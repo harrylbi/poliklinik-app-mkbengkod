@@ -137,6 +137,12 @@
                 Dashboard Dokter
             </a>
 
+            <a href="{{ route('dokter.jadwal.index') }}"
+                class="{{ $baseLink }} {{ request()->routeIs('dokter.jadwal.*') && !request()->routeIs('dokter.jadwal.export') ? $active : $inactive }}">
+                <i class="fas fa-calendar-alt w-4 text-center"></i>
+                Manajemen Jadwal
+            </a>
+
             <a href="{{ route('dokter.riwayat.index') }}"
                 class="{{ $baseLink }} {{ request()->routeIs('dokter.riwayat.*') ? $active : $inactive }}">
                 <i class="fas fa-clock-rotate-left w-4 text-center"></i>

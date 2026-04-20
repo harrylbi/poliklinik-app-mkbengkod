@@ -81,7 +81,7 @@ class PasienController extends Controller
 
     public function createDaftarPoli()
     {
-        $jadwals = JadwalPeriksa::with(['dokter.poli'])->get();
+        $jadwals = JadwalPeriksa::with(['dokter.poli'])->where('aktif', true)->get();
         return view('pasien.daftar-poli', compact('jadwals'));
     }
 
