@@ -97,6 +97,15 @@ class DokterPeriksaController extends Controller
                 ]);
             }
 
+            // Calculate the new minimum queue number for this schedule that hasn't been checked
+            $newSedangDilayani = DaftarPoli::where('id_jadwal', $antrian->id_jadwal)
+                ->whereDoesntHave('periksas')
+                ->where('id', '!=', $id_daftar_poli) // Exclude the one we just saved since relation might not be fully flushed yet
+                ->min('no_antrian') ?? '-';
+
+            // Fire the WebSocket Event
+            event(new \App\Events\QueueUpdated($antrian->id_jadwal, $newSedangDilayani));
+
             DB::commit();
             return redirect()->route('dokter.periksa.index')->with('success', 'Hasil pemeriksaan dan resep berhasil disimpan.');
 

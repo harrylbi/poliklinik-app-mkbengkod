@@ -114,41 +114,57 @@
     </div>
 
     @push('scripts')
-    <script>
+    <script type="module">
         document.addEventListener('DOMContentLoaded', function() {
-            // Live queue polling every 5 seconds
-            setInterval(function() {
-                fetch('{{ route('pasien.dashboard.live_queue') }}', {
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'Accept': 'application/json'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    // Update active queue serving number
-                    if (data.antrian_aktif) {
-                        const activeServingElem = document.getElementById('active-queue-serving');
-                        if (activeServingElem) {
-                            activeServingElem.textContent = data.antrian_aktif.sedang_dilayani;
-                            
-                            // Optional: add a subtle flash animation to indicate update
-                            activeServingElem.parentElement.classList.remove('animate-pulse');
-                            void activeServingElem.parentElement.offsetWidth; // trigger reflow
-                            activeServingElem.parentElement.classList.add('animate-pulse');
-                        }
-                    }
+            // Listen to WebSocket broadcasts from Reverb
+            if (window.Echo) {
+                window.Echo.channel('queue-updates')
+                    .listen('.QueueUpdated', (e) => {
+                        
+                        console.log('Real-time queue update received:', e);
 
-                    // Update schedule table serving numbers
-                    data.jadwals.forEach(jadwal => {
-                        const servingElem = document.getElementById('serving-jadwal-' + jadwal.id_jadwal);
+                        // If user is currently queuing for this specific schedule
+                        @if($antrianAktif)
+                            if (e.id_jadwal == {{ $antrianAktif->id_jadwal }}) {
+                                const activeServingElem = document.getElementById('active-queue-serving');
+                                if (activeServingElem) {
+                                    activeServingElem.textContent = e.sedang_dilayani;
+                                    
+                                    // Add subtle flash animation
+                                    activeServingElem.parentElement.classList.remove('animate-pulse');
+                                    void activeServingElem.parentElement.offsetWidth; // trigger reflow
+                                    activeServingElem.parentElement.classList.add('animate-pulse');
+                                }
+                            }
+                        @endif
+                        
+                        // Update the schedule list row
+                        const servingElem = document.getElementById('serving-jadwal-' + e.id_jadwal);
                         if (servingElem) {
-                            servingElem.textContent = jadwal.sedang_dilayani;
+                            servingElem.textContent = e.sedang_dilayani;
+                            servingElem.parentElement.classList.remove('animate-pulse');
+                            void servingElem.parentElement.offsetWidth;
+                            servingElem.parentElement.classList.add('animate-pulse');
                         }
                     });
-                })
-                .catch(error => console.error('Error fetching live queue:', error));
-            }, 5000);
+            } else {
+                console.error('Laravel Echo is not initialized. Using fallback polling.');
+                // Fallback polling if Echo fails
+                setInterval(function() {
+                    fetch('{{ route('pasien.dashboard.live_queue') }}', { headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' } })
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data.antrian_aktif) {
+                            const elem = document.getElementById('active-queue-serving');
+                            if (elem) elem.textContent = data.antrian_aktif.sedang_dilayani;
+                        }
+                        data.jadwals.forEach(j => {
+                            const elem = document.getElementById('serving-jadwal-' + j.id_jadwal);
+                            if (elem) elem.textContent = j.sedang_dilayani;
+                        });
+                    }).catch(e => console.log(e));
+                }, 10000); // 10 seconds fallback
+            }
         });
     </script>
     @endpush
