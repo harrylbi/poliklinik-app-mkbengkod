@@ -32,6 +32,13 @@ Route::middleware(['auth', 'role:dokter'])->group(function () {
     Route::get('/dokter/periksa', [App\Http\Controllers\DokterPeriksaController::class, 'index'])->name('dokter.periksa.index');
     Route::get('/dokter/periksa/{id_daftar_poli}/create', [App\Http\Controllers\DokterPeriksaController::class, 'create'])->name('dokter.periksa.create');
     Route::post('/dokter/periksa/{id_daftar_poli}', [App\Http\Controllers\DokterPeriksaController::class, 'store'])->name('dokter.periksa.store');
+
+    // Excel Export Jadwal
+    Route::get('/dokter/jadwal/export', [DokterController::class, 'exportJadwal'])->name('dokter.jadwal.export');
+
+    // Riwayat Pasien
+    Route::get('/dokter/riwayat', [DokterController::class, 'riwayatPasien'])->name('dokter.riwayat.index');
+    Route::get('/dokter/riwayat/export', [DokterController::class, 'exportRiwayat'])->name('dokter.riwayat.export');
 });
 
 Route::middleware(['auth', 'role:pasien'])->group(function () {
@@ -51,6 +58,10 @@ Route::middleware(['auth', 'role:pasien'])->group(function () {
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+
+    Route::get('/dokter/export', [AdminDokterController::class, 'export'])->name('dokter.export');
+    Route::get('/pasien/export', [AdminPasienController::class, 'export'])->name('pasien.export');
+    Route::get('/obat/export', [AdminObatController::class, 'export'])->name('obat.export');
 
     Route::resource('polis', PoliController::class);
     Route::resource('dokter', AdminDokterController::class);

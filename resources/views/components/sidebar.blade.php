@@ -125,6 +125,12 @@
                 Dashboard Dokter
             </a>
 
+            <a href="{{ route('dokter.riwayat.index') }}"
+                class="{{ $baseLink }} {{ request()->routeIs('dokter.riwayat.*') ? $active : $inactive }}">
+                <i class="fas fa-clock-rotate-left w-4 text-center"></i>
+                Riwayat Pasien
+            </a>
+
         </div>
         @endif
 

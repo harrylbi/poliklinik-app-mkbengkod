@@ -116,4 +116,9 @@ class DokterController extends Controller
         $dokter->delete();
         return redirect()->route('dokter.index')->with('success', 'Dokter berhasil dihapus');
     }
+
+    public function export()
+    {
+        return \Maatwebsite\Excel\Facades\Excel::download(new \App\Exports\DokterExport, 'Data_Dokter.xlsx');
+    }
 }

@@ -125,4 +125,9 @@ class PasienController extends Controller
             ->with('message','Data Pasien berhasil dihapus')
             ->with('type','success');
     }
+
+    public function export()
+    {
+        return \Maatwebsite\Excel\Facades\Excel::download(new \App\Exports\PasienExport, 'Data_Pasien.xlsx');
+    }
 }

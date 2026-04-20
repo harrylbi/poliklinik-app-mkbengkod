@@ -4,6 +4,11 @@
         <h2 class="text-2xl font-bold text-slate-800">
             Daftar Antrian Pasien
         </h2>
+        <a href="{{ route('dokter.jadwal.export') }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-green-500 hover:bg-green-600 
+                text-white rounded-xl text-sm font-semibold transition">
+            <i class="fas fa-file-excel text-sm"></i>
+            Export Jadwal Periksa
+        </a>
     </div>
 
     @if(session('success'))
