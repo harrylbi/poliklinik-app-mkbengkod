@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\DokterController as AdminDokterController;
 use App\Http\Controllers\PasienController;
 use App\Http\Controllers\Admin\PasienController as AdminPasienController;
 use App\Http\Controllers\Admin\ObatController as AdminObatController;
+use App\Http\Controllers\Admin\PembayaranController as AdminPembayaranController;
 use App\Http\Controllers\PoliController;
 
 
@@ -54,6 +55,10 @@ Route::middleware(['auth', 'role:pasien'])->group(function () {
     // Riwayat
     Route::get('/pasien/riwayat', [PasienController::class, 'riwayat'])->name('pasien.riwayat.index');
     Route::get('/pasien/riwayat/{id}', [PasienController::class, 'riwayatDetail'])->name('pasien.riwayat.detail');
+
+    // Pembayaran
+    Route::get('/pasien/pembayaran', [PasienController::class, 'pembayaran'])->name('pasien.pembayaran.index');
+    Route::post('/pasien/pembayaran/{id}/upload', [PasienController::class, 'storePembayaran'])->name('pasien.pembayaran.store');
 });
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
@@ -67,4 +72,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::resource('dokter', AdminDokterController::class);
     Route::resource('pasien', AdminPasienController::class);
     Route::resource('obat', AdminObatController::class);
+
+    Route::get('/pembayaran', [AdminPembayaranController::class, 'index'])->name('admin.pembayaran.index');
+    Route::post('/pembayaran/{id}/verifikasi', [AdminPembayaranController::class, 'verifikasi'])->name('admin.pembayaran.verifikasi');
 });

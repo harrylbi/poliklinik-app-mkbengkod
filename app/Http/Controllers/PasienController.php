@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\DaftarPoli;
 use App\Models\JadwalPeriksa;
+use App\Models\Periksa;
 use Illuminate\Support\Facades\Auth;
 
 class PasienController extends Controller
@@ -115,5 +116,70 @@ class PasienController extends Controller
         ]);
 
         return redirect()->route('pasien.dashboard')->with('success', 'Berhasil mendaftar poli. Nomor antrian Anda adalah ' . $noAntrian);
+    }
+
+    public function riwayat()
+    {
+        $pasienId = Auth::user()->id;
+
+        $riwayats = Periksa::with(['daftarPoli.jadwalPeriksa.dokter', 'daftarPoli.poli'])
+            ->whereHas('daftarPoli', function ($q) use ($pasienId) {
+                $q->where('id_pasien', $pasienId);
+            })
+            ->orderBy('tgl_periksa', 'desc')
+            ->get();
+
+        return view('pasien.riwayat.index', compact('riwayats'));
+    }
+
+    public function riwayatDetail($id)
+    {
+        $pasienId = Auth::user()->id;
+
+        $riwayat = Periksa::with(['daftarPoli.jadwalPeriksa', 'daftarPoli.poli', 'detailPeriksa.obat'])
+            ->whereHas('daftarPoli', function ($q) use ($pasienId) {
+                $q->where('id_pasien', $pasienId);
+            })->findOrFail($id);
+
+        return view('pasien.riwayat.detail', compact('riwayat'));
+    }
+
+    public function pembayaran()
+    {
+        $pasienId = Auth::user()->id;
+
+        $tagihans = Periksa::with(['daftarPoli.jadwalPeriksa.dokter', 'daftarPoli.poli'])
+            ->whereHas('daftarPoli', function ($q) use ($pasienId) {
+                $q->where('id_pasien', $pasienId);
+            })
+            ->orderBy('tgl_periksa', 'desc')
+            ->get();
+
+        return view('pasien.pembayaran.index', compact('tagihans'));
+    }
+
+    public function storePembayaran(Request $request, $id)
+    {
+        $request->validate([
+            'bukti_pembayaran' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        $pasienId = Auth::user()->id;
+
+        $periksa = Periksa::whereHas('daftarPoli', function ($q) use ($pasienId) {
+            $q->where('id_pasien', $pasienId);
+        })->findOrFail($id);
+
+        if ($request->hasFile('bukti_pembayaran')) {
+            $path = $request->file('bukti_pembayaran')->store('bukti_pembayaran', 'public');
+            
+            $periksa->bukti_pembayaran = $path;
+            $periksa->status_pembayaran = 'menunggu_verifikasi';
+            $periksa->save();
+            
+            return redirect()->route('pasien.pembayaran.index')->with('success', 'Bukti pembayaran berhasil diunggah. Menunggu verifikasi admin.');
+        }
+
+        return redirect()->back()->with('error', 'Gagal mengunggah bukti pembayaran.');
     }
 }
