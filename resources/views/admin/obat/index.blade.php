@@ -26,6 +26,7 @@
                             <th class="px-6 py-4">Nama Obat</th>
                             <th class="px-6 py-4">Kemasan</th>
                             <th class="px-6 py-4">Harga</th>
+                            <th class="px-6 py-4 text-center">Stok</th>
                             <th class="px-6 py-4 text-right">Aksi</th>
                         </tr>
                     </thead>
@@ -46,6 +47,18 @@
 
                             <td class="px-6 py-4 text-slate-600">
                                 Rp {{ number_format($obat->harga, 0, ',', '.') }}
+                            </td>
+
+                            <td class="px-6 py-4 text-center">
+                                @if($obat->stok < 10)
+                                    <span class="badge bg-red-100 text-red-700 border-red-200 font-bold px-2 py-1 tooltip" data-tip="Stok kritis!">
+                                        <i class="fas fa-exclamation-triangle mr-1"></i> {{ $obat->stok }}
+                                    </span>
+                                @else
+                                    <span class="badge bg-green-100 text-green-700 border-green-200 font-bold px-2 py-1">
+                                        {{ $obat->stok }}
+                                    </span>
+                                @endif
                             </td>
 
                             <td class="px-6 py-4 text-right">
@@ -79,7 +92,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="4" class="text-center py-12 text-slate-400">
+                            <td colspan="5" class="text-center py-12 text-slate-400">
                                 <i class="fas fa-inbox text-3xl mb-3 block"></i>
                                 Belum ada data obat
                             </td>

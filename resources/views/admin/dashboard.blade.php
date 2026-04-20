@@ -14,7 +14,7 @@
                         <i class="fas fa-users-cog text-xl"></i>
                     </div>
                     <div class="stat-title text-slate-500">Total Dokter</div>
-                    <div class="stat-value text-primary text-3xl">0</div>
+                    <div class="stat-value text-primary text-3xl">{{ $totalDokter }}</div>
                 </div>
             </div>
 
@@ -24,7 +24,7 @@
                         <i class="fas fa-hospital text-xl"></i>
                     </div>
                     <div class="stat-title text-slate-500">Total Poli</div>
-                    <div class="stat-value text-secondary text-3xl">0</div>
+                    <div class="stat-value text-secondary text-3xl">{{ $totalPoli }}</div>
                 </div>
             </div>
 
@@ -34,7 +34,7 @@
                         <i class="fas fa-id-card text-xl"></i>
                     </div>
                     <div class="stat-title text-slate-500">Total Pasien</div>
-                    <div class="stat-value text-accent text-3xl">0</div>
+                    <div class="stat-value text-accent text-3xl">{{ $totalPasien }}</div>
                 </div>
             </div>
 
@@ -44,7 +44,7 @@
                         <i class="fas fa-pills text-xl"></i>
                     </div>
                     <div class="stat-title text-slate-500">Total Obat</div>
-                    <div class="stat-value text-success text-3xl">0</div>
+                    <div class="stat-value text-success text-3xl">{{ $totalObat }}</div>
                 </div>
             </div>
         </div>
