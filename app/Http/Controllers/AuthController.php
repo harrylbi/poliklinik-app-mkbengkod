@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 
@@ -55,6 +56,10 @@ class AuthController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
+        $lastpasien = User::where('role','pasien')->orderBy('id', 'desc')->first();
+        $lastId= $lastpasien ? $lastpasien->id + 1 : 1;
+        $no_rm = date('YM') .  '-' . str_pad($lastId, 3, '0', STR_PAD_LEFT);
+
         if(User::where('no_ktp', $validated['no_ktp'])->exists()){
             return back()->withErrors([
                 'no_ktp' => 'The provided KTP is already registered.',
@@ -66,12 +71,14 @@ class AuthController extends Controller
             'alamat' => $validated['alamat'],
             'no_ktp' => $validated['no_ktp'],
             'no_hp' => $validated['no_hp'],
-            'email' => $validated['email'],
-            'password' => bcrypt($validated['password']),
+            'no_rm' => $no_rm,
             'role' => 'pasien',
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            
         ]);
         
-        return redirect()->route('login')->with('success', 'User created successfully.');
+        return redirect()->route('login')->with('success', 'Registrasi berhasil .');
     }
 
     public function logout(Request $request)

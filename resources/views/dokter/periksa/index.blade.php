@@ -68,4 +68,25 @@
             </div>
         </div>
     </div>
+
+    @push('scripts')
+    <script type="module">
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.Echo) {
+                console.log('Dokter Periksa: Echo connected, listening on queue-updates...');
+                window.Echo.channel('queue-updates')
+                    .listen('.QueueUpdated', (e) => {
+                        console.log('Dokter Periksa: Real-time update received:', e);
+                        
+                        // When a new patient registers, reload the page to show updated queue
+                        if (e.action === 'antrian_baru') {
+                            window.location.reload();
+                        }
+                    });
+            } else {
+                console.error('Dokter Periksa: Echo not initialized');
+            }
+        });
+    </script>
+    @endpush
 </x-layouts.app>

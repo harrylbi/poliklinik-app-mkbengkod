@@ -50,7 +50,7 @@
                     <p class="opacity-80">Lihat antrian pasien dan mulai lakukan pemeriksaan.</p>
                 </div>
                 <div class="card-actions">
-                    <button class="btn btn-white text-[#1e2d6b] font-bold border-none hover:bg-slate-100 rounded-xl px-8">
+                    <button class="btn bg-white text-[#1e2d6b] font-bold border-none hover:bg-slate-100 rounded-xl px-8">
                         Buka Antrian <i class="fas fa-chevron-right ml-1"></i>
                     </button>
                 </div>

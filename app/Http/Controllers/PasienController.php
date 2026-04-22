@@ -115,6 +115,18 @@ class PasienController extends Controller
             'no_antrian' => $noAntrian
         ]);
 
+        // Broadcast real-time update to all listening clients
+        $sedangDilayani = DaftarPoli::where('id_jadwal', $request->id_jadwal)
+            ->whereDoesntHave('periksas')
+            ->min('no_antrian') ?? '-';
+
+        event(new \App\Events\QueueUpdated(
+            $request->id_jadwal,
+            $sedangDilayani,
+            'antrian_baru',
+            $noAntrian
+        ));
+
         return redirect()->route('pasien.dashboard')->with('success', 'Berhasil mendaftar poli. Nomor antrian Anda adalah ' . $noAntrian);
     }
 
