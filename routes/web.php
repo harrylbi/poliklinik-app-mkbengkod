@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\PasienController as AdminPasienController;
 use App\Http\Controllers\Admin\ObatController as AdminObatController;
 use App\Http\Controllers\Admin\PembayaranController as AdminPembayaranController;
 use App\Http\Controllers\PoliController;
+use App\Http\Controllers\Pasien\PoliController as PasienPoliController;
 
 
 Route::get('/', function () {
@@ -42,7 +43,7 @@ Route::middleware(['auth', 'role:dokter'])->group(function () {
     Route::get('/dokter/jadwal/{jadwal}/edit', [\App\Http\Controllers\Dokter\JadwalPeriksaController::class, 'edit'])->name('dokter.jadwal.edit');
     Route::put('/dokter/jadwal/{jadwal}', [\App\Http\Controllers\Dokter\JadwalPeriksaController::class, 'update'])->name('dokter.jadwal.update');
     Route::delete('/dokter/jadwal/{jadwal}', [\App\Http\Controllers\Dokter\JadwalPeriksaController::class, 'destroy'])->name('dokter.jadwal.destroy');
-    Route::post('/dokter/jadwal/{jadwal}/toggle', [\App\Http\Controllers\Dokter\JadwalPeriksaController::class, 'toggleAktif'])->name('dokter.jadwal.toggle');
+
 
     // Riwayat Pasien
     Route::get('/dokter/riwayat', [DokterController::class, 'riwayatPasien'])->name('dokter.riwayat.index');
@@ -56,9 +57,6 @@ Route::middleware(['auth', 'role:pasien'])->group(function () {
     Route::get('/pasien/dashboard', [PasienController::class, 'dashboard'])->name('pasien.dashboard');
     Route::get('/pasien/dashboard/live-queue', [PasienController::class, 'getLiveQueueStatus'])->name('pasien.dashboard.live_queue');
     
-    Route::get('/pasien/daftar-poli', [PasienController::class, 'createDaftarPoli'])->name('pasien.daftar-poli.create');
-    Route::post('/pasien/daftar-poli', [PasienController::class, 'storeDaftarPoli'])->name('pasien.daftar-poli.store');
-    
     // Riwayat
     Route::get('/pasien/riwayat', [PasienController::class, 'riwayat'])->name('pasien.riwayat.index');
     Route::get('/pasien/riwayat/{id}', [PasienController::class, 'riwayatDetail'])->name('pasien.riwayat.detail');
@@ -66,6 +64,9 @@ Route::middleware(['auth', 'role:pasien'])->group(function () {
     // Pembayaran
     Route::get('/pasien/pembayaran', [PasienController::class, 'pembayaran'])->name('pasien.pembayaran.index');
     Route::post('/pasien/pembayaran/{id}/upload', [PasienController::class, 'storePembayaran'])->name('pasien.pembayaran.store');
+
+    Route::get('/pasien/daftar', [PasienPoliController::class, 'get'])->name('pasien.daftar');
+    Route::post('/pasien/daftar', [PasienPoliController::class, 'submit'])->name('pasien.daftar.submit');
 });
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {

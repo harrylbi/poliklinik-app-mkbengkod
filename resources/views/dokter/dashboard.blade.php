@@ -42,19 +42,6 @@
             </div>
         </div>
 
-        {{-- Action Card --}}
-        <div class="card bg-gradient-to-br from-[#1e2d6b] to-[#2d4499] text-white shadow-xl rounded-2xl">
-            <div class="card-body flex-row justify-between items-center py-5">
-                <div>
-                    <h2 class="card-title text-xl">Mulai Layanan Pasien</h2>
-                    <p class="opacity-80">Lihat antrian pasien dan mulai lakukan pemeriksaan.</p>
-                </div>
-                <div class="card-actions">
-                    <button class="btn bg-white text-[#1e2d6b] font-bold border-none hover:bg-slate-100 rounded-xl px-8">
-                        Buka Antrian <i class="fas fa-chevron-right ml-1"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
+
     </div>
 </x-layouts.app>

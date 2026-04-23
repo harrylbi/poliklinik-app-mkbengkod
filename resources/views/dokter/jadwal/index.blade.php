@@ -41,7 +41,7 @@
                             <th class="px-6 py-4">Hari</th>
                             <th class="px-6 py-4">Jam Mulai</th>
                             <th class="px-6 py-4">Jam Selesai</th>
-                            <th class="px-6 py-4 text-center">Status Antrian</th>
+
                             <th class="px-6 py-4 text-right">Aksi</th>
                         </tr>
                     </thead>
@@ -67,30 +67,12 @@
                                 {{ \Carbon\Carbon::parse($jadwal->jam_selesai)->format('H:i') }}
                             </td>
 
-                            <td class="px-6 py-4 text-center">
-                                @if($jadwal->aktif)
-                                    <span class="badge bg-green-100 text-green-700 border-green-200 px-3 py-1 font-bold">Aktif (Dibuka)</span>
-                                @else
-                                    <span class="badge bg-slate-100 text-slate-500 border-slate-200 px-3 py-1 font-bold">Tidak Aktif</span>
-                                @endif
-                            </td>
+
 
                             <td class="px-6 py-4 text-right">
                                 <div class="flex justify-end gap-2">
 
-                                    {{-- Toggle --}}
-                                    <form action="{{ route('dokter.jadwal.toggle', $jadwal->id) }}" method="POST" style="display: inline-block;">
-                                        @csrf
-                                        @if($jadwal->aktif)
-                                            <button type="submit" class="btn btn-sm bg-red-500 hover:bg-red-600 text-white border-none rounded-lg px-4" onclick="return confirm('Tutup antrian ini?')">
-                                                <i class="fas fa-lock"></i> Tutup
-                                            </button>
-                                        @else
-                                            <button type="submit" class="btn btn-sm bg-green-600 hover:bg-green-700 text-white border-none rounded-lg px-4" onclick="return confirm('Buka antrian ini sekarang?')">
-                                                <i class="fas fa-bullhorn"></i> Buka Antrian
-                                            </button>
-                                        @endif
-                                    </form>
+
 
                                     {{-- Edit --}}
                                     <a href="{{ route('dokter.jadwal.edit', $jadwal->id) }}" class="btn btn-sm bg-amber-500 hover:bg-amber-600 

@@ -77,22 +77,5 @@ class JadwalPeriksaController extends Controller
         return redirect()->route('dokter.jadwal.index')->with('success', 'Jadwal berhasil dihapus.');
     }
 
-    public function toggleAktif($id)
-    {
-        $jadwal = JadwalPeriksa::where('id_dokter', Auth::id())->findOrFail($id);
 
-        if ($jadwal->aktif == false) {
-            $hasActive = JadwalPeriksa::where('id_dokter', Auth::id())->where('aktif', true)->exists();
-            if ($hasActive) {
-                return redirect()->back()->with('error', 'Hanya satu jadwal yang dapat aktif (antrean buka) dalam satu waktu. Tolong matikan jadwal aktif lainnya terlebih dahulu.');
-            }
-            $jadwal->aktif = true;
-            $jadwal->save();
-            return redirect()->back()->with('success', "Antrian untuk jadwal hari {$jadwal->hari} telah DIBUKA.");
-        } else {
-            $jadwal->aktif = false;
-            $jadwal->save();
-            return redirect()->back()->with('success', "Antrian untuk jadwal hari {$jadwal->hari} telah DITUTUP.");
-        }
-    }
 }

@@ -79,56 +79,7 @@ class PasienController extends Controller
         ]);
     }
 
-    public function createDaftarPoli()
-    {
-        $jadwals = JadwalPeriksa::with(['dokter.poli'])->where('aktif', true)->get();
-        return view('pasien.daftar-poli', compact('jadwals'));
-    }
 
-    public function storeDaftarPoli(Request $request)
-    {
-        $request->validate([
-            'id_jadwal' => 'required|exists:jadwal_periksa,id',
-            'keluhan' => 'required|string|max:1000'
-        ]);
-
-        // Ketentuan: Pasien tidak dapat mendaftar ke dua poli sekaligus
-        // Ketentuan: Pasien hanya dapat mendaftar kembali setelah proses pemeriksaan selesai
-        $activeQueue = DaftarPoli::where('id_pasien', Auth::id())
-            ->whereDoesntHave('periksas')
-            ->first();
-
-        if ($activeQueue) {
-            return redirect()->back()->with('error', 'Anda tidak dapat mendaftar. Anda masih memiliki antrian aktif (belum diperiksa) pada poli lain atau jadwal ini.');
-        }
-
-        // Generate No Antrian
-        $lastQueue = DaftarPoli::where('id_jadwal', $request->id_jadwal)
-                ->orderBy('no_antrian', 'desc')
-                ->first();
-        $noAntrian = $lastQueue ? $lastQueue->no_antrian + 1 : 1;
-
-        DaftarPoli::create([
-            'id_pasien' => Auth::id(),
-            'id_jadwal' => $request->id_jadwal,
-            'keluhan' => $request->keluhan,
-            'no_antrian' => $noAntrian
-        ]);
-
-        // Broadcast real-time update to all listening clients
-        $sedangDilayani = DaftarPoli::where('id_jadwal', $request->id_jadwal)
-            ->whereDoesntHave('periksas')
-            ->min('no_antrian') ?? '-';
-
-        event(new \App\Events\QueueUpdated(
-            $request->id_jadwal,
-            $sedangDilayani,
-            'antrian_baru',
-            $noAntrian
-        ));
-
-        return redirect()->route('pasien.dashboard')->with('success', 'Berhasil mendaftar poli. Nomor antrian Anda adalah ' . $noAntrian);
-    }
 
     public function riwayat()
     {

@@ -72,7 +72,7 @@
             <a href="{{ route('pasien.index') }}"
             class="{{ $baseLink }} {{ request()->routeIs('pasien.*') ? $active : $inactive }}">
                 <i class="fas fa-user-injured w-4 text-center"></i>
-                Manajemen Pasien
+                Manajemen Pasien1
             </a>
 
             <a href="{{ route('obat.index') }}"
@@ -85,7 +85,7 @@
             class="{{ $baseLink }} {{ request()->routeIs('admin.pembayaran.*') ? $active : $inactive }}">
                 <i class="fas fa-check-double w-4 text-center"></i>
                 Verifikasi Pembayaran
-            </a>
+            </a>2
 
         </div>
         @endif
@@ -116,6 +116,12 @@
                 class="{{ $baseLink }} {{ request()->routeIs('pasien.pembayaran.*') ? $active : $inactive }}">
                 <i class="fas fa-file-invoice-dollar w-4 text-center"></i>
                 Pembayaran
+            </a>
+
+            <a href="{{ route('pasien.daftar') }}"
+                class="{{ $baseLink }} {{ request()->routeIs('pasien.daftar.*') ? $active : $inactive }}">
+                <i class="fas fa-file-invoice-dollar w-4 text-center"></i>
+                Pendaftaran periksa
             </a>
 
         </div>

@@ -105,7 +105,7 @@
                 <h2 class="card-title text-xl">Daftar Poli Sekarang</h2>
                 <p class="opacity-80">Ingin berkonsultasi dengan dokter? Klik tombol di bawah untuk mendaftar layanan poliklinik kami.</p>
                 <div class="card-actions justify-end mt-4">
-                    <a href="{{ url('/pasien/daftar-poli') }}" class="btn btn-white text-[#1e2d6b] font-bold border-none hover:bg-slate-100 rounded-xl">
+                    <a href="{{ url('/pasien/daftar') }}" class="btn btn-white text-[#1e2d6b] font-bold border-none hover:bg-slate-100 rounded-xl">
                         Daftar Poli <i class="fas fa-chevron-right ml-1"></i>
                     </a>
                 </div>
