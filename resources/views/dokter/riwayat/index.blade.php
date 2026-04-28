@@ -1,62 +1,80 @@
 <x-layouts.app title="Riwayat Pasien">
 
+    {{-- Header --}}
     <div class="flex items-center justify-between mb-6">
-        <div>
-            <h2 class="text-2xl font-bold text-slate-800">Riwayat Pasien</h2>
-            <p class="text-slate-500 text-sm mt-1">Daftar rekam medis pasien yang pernah Anda periksa</p>
-        </div>
-        <a href="{{ route('dokter.riwayat.export') }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-green-500 hover:bg-green-600 
-                text-white rounded-xl text-sm font-semibold transition">
-            <i class="fas fa-file-excel text-sm"></i>
-            Export Excel
-        </a>
+        <h2 class="text-2xl font-bold text-slate-800">
+            Riwayat Pasien
+        </h2>
     </div>
 
-    <div class="card bg-base-100 shadow-md rounded-2xl border border-slate-200">
+    {{-- Card --}}
+    <div class="card bg-base-100 shadow-md rounded-2 border">
         <div class="card-body p-0">
+
             <div class="overflow-x-auto">
-                <table class="table w-full">
-                    <thead class="bg-slate-50 text-slate-500 uppercase text-xs tracking-wider">
+                <table class="table table-zebra w-full">
+
+                    {{-- Head --}}
+                    <thead class="bg-slate-100 text-slate-500 text-xs uppercase tracking-wider">
                         <tr>
-                            <th class="px-6 py-4">No</th>
+                            <th class="px-6 py-4">No Antrian</th>
                             <th class="px-6 py-4">Nama Pasien</th>
-                            <th class="px-6 py-4">Tanggal Periksa</th>
                             <th class="px-6 py-4">Keluhan</th>
-                            <th class="px-6 py-4">Catatan Dokter</th>
-                            <th class="px-6 py-4 text-right">Total Biaya</th>
+                            <th class="px-6 py-4">Tanggal Periksa</th>
+                            <th class="px-6 py-4">Biaya</th>
+                            <th class="px-6 py-4 text-right">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="text-sm text-slate-700">
-                        @forelse($riwayats as $riwayat)
-                        <tr class="border-t border-slate-100 hover:bg-slate-50 transition">
-                            <td class="px-6 py-4 font-semibold text-slate-500">{{ $loop->iteration }}</td>
-                            <td class="px-6 py-4 font-bold text-slate-800">
-                                {{ $riwayat->daftarPoli->pasien->nama ?? '-' }}
+
+                    {{-- Body --}}
+                    <tbody>
+                        @forelse($riwayatPasien as $riwayat)
+                        <tr class="hover:bg-slate-50 transition">
+
+                            <td class="px-6 py-4 text-slate-500">
+                                {{ $riwayat->daftarPoli->no_antrian }}
                             </td>
-                            <td class="px-6 py-4 font-medium text-slate-600">
-                                {{ \Carbon\Carbon::parse($riwayat->tgl_periksa)->format('d M Y') }}
+
+                            <td class="px-6 py-4 font-semibold text-slate-800">
+                                {{ $riwayat->daftarPoli->pasien->nama }}
                             </td>
-                            <td class="px-6 py-4 text-slate-600 truncate max-w-xs">
-                                {{ $riwayat->daftarPoli->keluhan ?? '-' }}
+
+                            <td class="px-6 py-4 text-slate-500">
+                                {{ $riwayat->daftarPoli->keluhan }}
                             </td>
-                            <td class="px-6 py-4 text-slate-600 truncate max-w-xs">
-                                {{ $riwayat->catatan }}
+
+                            <td class="px-6 py-4 text-slate-500">
+                                {{ \Carbon\Carbon::parse($riwayat->tgl_periksa)->format('d/m/Y') }}
                             </td>
-                            <td class="px-6 py-4 font-bold text-primary text-right">
+
+                            <td class="px-6 py-4 text-slate-500">
                                 Rp {{ number_format($riwayat->biaya_periksa, 0, ',', '.') }}
                             </td>
+
+                            <td class="px-6 py-4 text-right">
+                                <a href="{{ route('riwayat-pasien.show', $riwayat) }}"
+                                    class="btn btn-sm bg-blue-500 hover:bg-blue-600 text-white border-none rounded-lg px-4">
+                                    <i class="fas fa-eye"></i>
+                                    Detail
+                                </a>
+                            </td>
+
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="6" class="text-center py-12 text-slate-400">
-                                <i class="fas fa-notes-medical text-3xl mb-3 block"></i>
-                                Belum ada riwayat pemeriksaan.
+                            <td colspan="6" class="text-center py-14 text-slate-400">
+                                <div class="flex flex-col items-center justify-center gap-2">
+                                    <i class="fas fa-inbox text-3xl"></i>
+                                    <span>Belum ada riwayat pemeriksaan</span>
+                                </div>
                             </td>
                         </tr>
                         @endforelse
                     </tbody>
+
                 </table>
             </div>
+
         </div>
     </div>
 

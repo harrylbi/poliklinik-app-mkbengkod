@@ -22,14 +22,14 @@ class DokterController extends Controller
         $id_dokter = \Illuminate\Support\Facades\Auth::id();
 
         // Riwayat pasien yang pernah diperiksa oleh dokter ini
-        $riwayats = \App\Models\Periksa::with(['daftarPoli.pasien'])
+        $riwayatPasien = \App\Models\Periksa::with(['daftarPoli.pasien'])
             ->whereHas('daftarPoli.jadwalPeriksa', function ($query) use ($id_dokter) {
                 $query->where('id_dokter', $id_dokter);
             })
             ->orderBy('tgl_periksa', 'desc')
             ->get();
 
-        return view('dokter.riwayat.index', compact('riwayats'));
+        return view('dokter.riwayat.index', compact('riwayatPasien'));
     }
 
     public function exportRiwayat()

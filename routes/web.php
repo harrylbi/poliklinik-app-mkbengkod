@@ -46,8 +46,12 @@ Route::middleware(['auth', 'role:dokter'])->group(function () {
 
 
     // Riwayat Pasien
-    Route::get('/dokter/riwayat', [DokterController::class, 'riwayatPasien'])->name('dokter.riwayat.index');
-    Route::get('/dokter/riwayat/export', [DokterController::class, 'exportRiwayat'])->name('dokter.riwayat.export');
+    Route::get('/dokter/riwayat', [\App\Http\Controllers\Dokter\RiwayatPasienController::class, 'index'])->name('riwayat-pasien.index');
+    Route::get('/dokter/riwayat/{id}', [\App\Http\Controllers\Dokter\RiwayatPasienController::class, 'show'])->name('riwayat-pasien.show');
+    Route::get('/dokter/riwayat-export/export', [DokterController::class, 'exportRiwayat'])->name('dokter.riwayat.export');
+
+
+
 });
 
 Route::middleware(['auth', 'role:pasien'])->group(function () {

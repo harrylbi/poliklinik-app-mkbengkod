@@ -149,8 +149,14 @@
                 Manajemen Jadwal
             </a>
 
-            <a href="{{ route('dokter.riwayat.index') }}"
-                class="{{ $baseLink }} {{ request()->routeIs('dokter.riwayat.*') ? $active : $inactive }}">
+            <a href="{{ route('dokter.periksa.index') }}"
+                class="{{ $baseLink }} {{ request()->routeIs('dokter.periksa.*') ? $active : $inactive }}">
+                <i class="fas fa-file-invoice-dollar w-4 text-center"></i>
+                Pemeriksaan
+            </a>
+
+            <a href="{{ route('riwayat-pasien.index') }}"
+                class="{{ $baseLink }} {{ request()->routeIs('riwayat-pasien.*') ? $active : $inactive }}">
                 <i class="fas fa-clock-rotate-left w-4 text-center"></i>
                 Riwayat Pasien
             </a>

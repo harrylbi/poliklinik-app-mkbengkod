@@ -71,7 +71,7 @@
                                 <div class="text-center py-4 text-slate-400">Belum ada data obat.</div>
                             @endforelse
                         </div>
-                        @error('obats')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@error('obats.*')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
+                        @error('obats')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror @error('obats.*')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
                     </div>
 
                     <div class="flex flex-row-reverse gap-3 mt-6 pt-4 border-t border-slate-100">
