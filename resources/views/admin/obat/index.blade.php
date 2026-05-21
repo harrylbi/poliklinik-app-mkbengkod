@@ -1,4 +1,4 @@
-<x-layouts.app title="Manajemen Obat">
+Q<x-layouts.app title="Manajemen Obat">
 
     {{-- Header --}}
     <div class="flex items-center justify-between mb-6">
